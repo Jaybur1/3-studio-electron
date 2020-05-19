@@ -49,7 +49,7 @@
     "build": "rescripts build",
     "test": "rescripts test",
     "eject": "react-scripts eject",
-    "electron-dev": "concurrently \"BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron-dev": "concurrently \"BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron . --allow-file-access-from-files\"",
     "postinstall": "electron-builder install-app-deps",
     "preelectron-pack": "npm run build",
     "electron-pack": "electron-builder build -l"
@@ -98,13 +98,22 @@
     "productName": "3-studio",
     "copyright": "Copyright © 2019 ${name}",
     "mac": {
-      "category": "public.app-category.utilities"
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "icon": "./public/icon.png",
+      "category": "Developmnet"
+    },
+    "win": {
+      "target": "NSIS"
     },
     "linux": {
       "target": [
         "deb",
         "rpm"
       ],
+      "icon": "./public/icon.png",
       "category": "Development"
     },
     "files": [

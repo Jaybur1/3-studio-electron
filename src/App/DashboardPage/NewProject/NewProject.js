@@ -6,7 +6,7 @@ import {
   DialogTitle,
   DialogContent,
   TextField,
-  DialogActions
+  DialogActions,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { DropzoneArea } from "material-ui-dropzone";
@@ -20,7 +20,7 @@ import Loader from "../../UI/Loader/Loader";
 import * as actions from "../../../store/actions/index";
 import Alert from "../../UI/Alert/Alert";
 
-const NewProject = props => {
+const NewProject = (props) => {
   const { user } = useAuth0();
   const [open, setOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
@@ -50,7 +50,7 @@ const NewProject = props => {
     setOpen(false);
   };
 
-  const handleDrop = file => {
+  const handleDrop = (file) => {
     setFiles(file);
   };
   const handleRemove = () => {
@@ -77,20 +77,24 @@ const NewProject = props => {
       if (files.length > 0) {
         console.log(files);
         setLoading(true);
-        saveModelToCloude(files).then(modelLink => {
-          console.log(name, description, modelLink);
-          createNewProject({
-            userId: "General",
-            name,
-            description,
-            modelLink
-          }).then(data => {
-            props.onNewProject(data);
-            setLoading(false);
-            setOpen(false);
-            resetForm();
-          });
-        });
+        const data = {
+          id: Math.floor(Math.random() * 1000),
+          name,
+          description,
+          userId: "Desktop General",
+          updatedAt: Date.now(),
+          modelLink: `file:///${files[0].path}`,
+          screenshots: [
+            { path: "/assets/testLogo3.png", label: "default_pic" },
+          ],
+          counter: 123,
+          createdAt: Date.now(),
+        };
+
+        props.onNewProject(data);
+        setLoading(false);
+        setOpen(false);
+        resetForm();
       } else if (files.length === 0) {
         // console.log("default");
         setLoading(true);
@@ -98,8 +102,8 @@ const NewProject = props => {
           userId: "global",
           name,
           description,
-          modelLink: defaultLink
-        }).then(data => {
+          modelLink: defaultLink,
+        }).then((data) => {
           props.onNewProject(data);
           setLoading(false);
           setOpen(false);
@@ -109,16 +113,16 @@ const NewProject = props => {
     }
   };
 
-  const handleName = e => {
+  const handleName = (e) => {
     e.preventDefault();
     setName(e.target.value);
   };
-  const handleDescription = e => {
+  const handleDescription = (e) => {
     e.preventDefault();
     setDescription(e.target.value);
   };
 
-  const handleDefaultSelect = e => {
+  const handleDefaultSelect = (e) => {
     switch (e) {
       case 1:
         setModelClass1("default-model-pic-selected");
@@ -167,7 +171,7 @@ const NewProject = props => {
         <DialogContent>
           <TextField
             value={name}
-            onChange={e => handleName(e)}
+            onChange={(e) => handleName(e)}
             autoFocus
             margin="dense"
             id="project-name"
@@ -178,7 +182,7 @@ const NewProject = props => {
           />
           <TextField
             value={description}
-            onChange={e => handleDescription(e)}
+            onChange={(e) => handleDescription(e)}
             margin="dense"
             id="project-description"
             label="Description"
@@ -191,10 +195,10 @@ const NewProject = props => {
             dropzoneClass="new-project-drop-zone"
             dropzoneText=""
             acceptedFiles={[".glb"]}
-            maxFileSize={10000000}
+            maxFileSize={100000000}
             filesLimit={1}
-            onDrop={e => handleDrop(e)}
-            onDelete={e => handleRemove()}
+            onDrop={(e) => handleDrop(e)}
+            onDelete={(e) => handleRemove()}
           />
           <h3>Or choose one of our default models</h3>
           <div className="default-model-area">
@@ -203,21 +207,21 @@ const NewProject = props => {
               className={defaultModelClass1}
               src="assets/range.png"
               alt="defaultmodel-car"
-              onClick={e => handleDefaultSelect(1)}
+              onClick={(e) => handleDefaultSelect(1)}
             />
             <img
               id="default-model-2"
               className={defaultModelClass2}
               src="assets/wolf.png"
               alt="defaultmodel-wolf"
-              onClick={e => handleDefaultSelect(2)}
+              onClick={(e) => handleDefaultSelect(2)}
             />
             <img
               id="default-model-3"
               className={defaultModelClass3}
               src="assets/controller.png"
               alt="defaultmodel-controller"
-              onClick={e => handleDefaultSelect(3)}
+              onClick={(e) => handleDefaultSelect(3)}
             />
           </div>
         </DialogContent>
@@ -253,8 +257,8 @@ const NewProject = props => {
 
 NewProject.prototype = {};
 
-const mapDispatchToProps = dispatch => ({
-  onNewProject: data => dispatch(actions.newProject(data))
+const mapDispatchToProps = (dispatch) => ({
+  onNewProject: (data) => dispatch(actions.newProject(data)),
 });
 
 export default connect(null, mapDispatchToProps)(NewProject);

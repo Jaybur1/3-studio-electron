@@ -1,15 +1,15 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, nativeImage } = require("electron");
 
 const path = require("path");
 const isDev = require("electron-is-dev");
 
 let mainWindow;
-
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 900,
     height: 680,
-    webPreferences: { nodeIntegration: true },
+    webPreferences: { nodeIntegration: true, webSecurity: false },
+    icon: path.join(__dirname, "../build/icon.png"),
   });
   mainWindow.loadURL(
     isDev
