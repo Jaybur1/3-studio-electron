@@ -71,7 +71,7 @@
     "@rescripts/rescript-env": "0.0.12",
     "babel-eslint": "^9.0.0",
     "concurrently": "^5.2.0",
-    "electron": "^9.0.0",
+    "electron": "^18.3.7",
     "electron-builder": "^22.6.1",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.1",
